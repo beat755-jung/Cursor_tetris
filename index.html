@@ -3,71 +3,146 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>테트리스</title>
+  <title>테트리스 — War Zone</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="skyline" aria-hidden="true"></div>
+  <div class="war-backdrop" aria-hidden="true">
+    <div class="war-sky"></div>
+    <div class="war-horizon"></div>
+    <div class="war-ground"></div>
+    <div class="war-trenches"></div>
 
-  <div class="container">
-    <header>
+    <div class="war-flares">
+      <span class="flare f1"></span>
+      <span class="flare f2"></span>
+      <span class="flare f3"></span>
+    </div>
+
+    <div class="war-explosions">
+      <span class="boom b1"></span>
+      <span class="boom b2"></span>
+      <span class="boom b3"></span>
+      <span class="boom b4"></span>
+      <span class="boom b5"></span>
+      <span class="boom b6"></span>
+    </div>
+
+    <div class="war-tracers">
+      <span class="tracer t1"></span>
+      <span class="tracer t2"></span>
+      <span class="tracer t3"></span>
+      <span class="tracer t4"></span>
+      <span class="tracer t5"></span>
+    </div>
+
+    <div class="war-smoke">
+      <span class="smoke s1"></span>
+      <span class="smoke s2"></span>
+      <span class="smoke s3"></span>
+      <span class="smoke s4"></span>
+    </div>
+
+    <div class="war-searchlights">
+      <span class="beam beam-left"></span>
+      <span class="beam beam-right"></span>
+    </div>
+
+    <div class="battlefield-left">
+      <div class="ruin ruin-a"></div>
+      <div class="ruin ruin-b"></div>
+      <div class="tank-silhouette"></div>
+      <div class="barbed-wire"></div>
+    </div>
+
+    <div class="battlefield-right">
+      <div class="ruin ruin-c"></div>
+      <div class="ruin ruin-d"></div>
+      <div class="helicopter-silhouette"></div>
+      <div class="crater crater-a"></div>
+      <div class="crater crater-b"></div>
+    </div>
+
+    <div class="war-vignette"></div>
+    <div class="war-grain"></div>
+  </div>
+
+  <div class="game-shell">
+    <header class="game-header">
+      <div class="header-badge">OPERATION BLOCKFALL</div>
       <h1>테트리스</h1>
-      <p class="subtitle">King Kong Edition</p>
+      <p class="subtitle">War Zone Edition</p>
     </header>
 
-    <main class="game-area">
-      <aside class="kong-stage" aria-hidden="true">
-        <div class="building">
-          <div class="building-top"></div>
-          <div class="building-body">
-            <div class="window-row"><span></span><span></span></div>
-            <div class="window-row"><span></span><span></span></div>
-            <div class="window-row"><span></span><span></span></div>
+    <main class="game-layout">
+      <aside class="flank flank-left" aria-hidden="true">
+        <div class="flank-label">SECTOR ALPHA</div>
+        <div class="kong-stage">
+          <div class="kong-platform"></div>
+          <div class="king-kong">
+            <div class="kong-head">
+              <div class="kong-eye left"></div>
+              <div class="kong-eye right"></div>
+              <div class="kong-brow"></div>
+            </div>
+            <div class="kong-body"></div>
+            <div class="kong-arm left"></div>
+            <div class="kong-arm right"></div>
+            <div class="kong-leg left"></div>
+            <div class="kong-leg right"></div>
           </div>
+          <div class="kong-shadow"></div>
         </div>
-        <div class="kong-platform"></div>
-        <div class="king-kong">
-          <div class="kong-head">
-            <div class="kong-eye left"></div>
-            <div class="kong-eye right"></div>
-            <div class="kong-brow"></div>
-          </div>
-          <div class="kong-body"></div>
-          <div class="kong-arm left"></div>
-          <div class="kong-arm right"></div>
-          <div class="kong-leg left"></div>
-          <div class="kong-leg right"></div>
+        <div class="radar">
+          <div class="radar-sweep"></div>
+          <div class="radar-blip blip-1"></div>
+          <div class="radar-blip blip-2"></div>
         </div>
-        <div class="kong-shadow"></div>
       </aside>
 
-      <section class="board-section">
-        <div class="board-frame">
-          <div id="game-board" class="game-board" aria-label="테트리스 게임 보드"></div>
+      <section class="board-center">
+        <div class="board-hud">
+          <span class="hud-corner tl"></span>
+          <span class="hud-corner tr"></span>
+          <span class="hud-corner bl"></span>
+          <span class="hud-corner br"></span>
+          <div class="board-frame">
+            <div id="game-board" class="game-board" aria-label="테트리스 게임 보드"></div>
+          </div>
         </div>
       </section>
 
-      <aside class="info-panel">
-        <div class="score-box">
-          <h2>점수</h2>
-          <p id="score" class="score-value">0</p>
-          <p id="game-status" class="game-status" aria-live="polite"></p>
+      <aside class="flank flank-right">
+        <div class="flank-label">COMMAND HUD</div>
+
+        <div class="info-panel">
+          <div class="score-box">
+            <h2>점수</h2>
+            <p id="score" class="score-value">0</p>
+            <p id="game-status" class="game-status" aria-live="polite"></p>
+          </div>
+
+          <div class="button-group">
+            <button id="start-btn" type="button">시작</button>
+            <button id="restart-btn" type="button">재시작</button>
+          </div>
+
+          <div class="controls-guide">
+            <h2>조작법</h2>
+            <ul>
+              <li><kbd>←</kbd> : 왼쪽 이동</li>
+              <li><kbd>→</kbd> : 오른쪽 이동</li>
+              <li><kbd>↓</kbd> : 한 칸 빠르게 내리기</li>
+              <li><kbd>↑</kbd> : 회전 (충돌 시 취소)</li>
+              <li><kbd>Space</kbd> : 즉시 낙하 (hard drop)</li>
+            </ul>
+          </div>
         </div>
 
-        <div class="button-group">
-          <button id="start-btn" type="button">시작</button>
-          <button id="restart-btn" type="button">재시작</button>
-        </div>
-
-        <div class="controls-guide">
-          <h2>조작법</h2>
-          <ul>
-            <li><kbd>←</kbd> : 왼쪽 이동</li>
-            <li><kbd>→</kbd> : 오른쪽 이동</li>
-            <li><kbd>↓</kbd> : 한 칸 빠르게 내리기</li>
-            <li><kbd>↑</kbd> : 회전 (충돌 시 취소)</li>
-            <li><kbd>Space</kbd> : 즉시 낙하 (hard drop)</li>
-          </ul>
+        <div class="status-ticker">
+          <span>▸ FRONTLINE ACTIVE</span>
+          <span>▸ ARTILLERY INBOUND</span>
+          <span>▸ HOLD THE LINE</span>
         </div>
       </aside>
     </main>
