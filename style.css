@@ -338,6 +338,50 @@ body {
   padding: clamp(12px, 1.5vh, 24px) clamp(16px, 2vw, 40px);
 }
 
+.pause-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(5, 5, 12, 0.72);
+  backdrop-filter: blur(4px);
+}
+
+.pause-overlay.hidden {
+  display: none;
+}
+
+.pause-panel {
+  text-align: center;
+  padding: clamp(24px, 4vw, 40px) clamp(32px, 5vw, 56px);
+  border: 2px solid rgba(255, 193, 7, 0.4);
+  border-radius: 6px;
+  background: linear-gradient(160deg, rgba(20, 16, 12, 0.95), rgba(8, 6, 4, 0.98));
+  box-shadow: 0 0 40px rgba(255, 140, 50, 0.2);
+}
+
+.pause-panel h2 {
+  font-size: clamp(1.2rem, 2.5vw, 1.8rem);
+  letter-spacing: 6px;
+  color: var(--hud-amber);
+  margin-bottom: 12px;
+  text-transform: uppercase;
+}
+
+.pause-panel p {
+  font-size: clamp(0.85rem, 1.1vw, 1rem);
+  color: var(--text-muted);
+  letter-spacing: 1px;
+}
+
+body.game-paused .war-backdrop,
+body.game-paused .king-kong,
+body.game-paused .radar-sweep {
+  animation-play-state: paused !important;
+}
+
 .game-header {
   text-align: center;
   flex-shrink: 0;
@@ -438,6 +482,61 @@ body {
 @keyframes kong-dance {
   0%   { transform: translateX(-50%) translateY(0) rotate(-2deg); }
   100% { transform: translateX(-50%) translateY(-8px) rotate(2deg); }
+}
+
+.king-kong.kong-clap {
+  animation: kong-clap 0.35s ease-in-out 3 alternate;
+}
+
+.king-kong.kong-frenzy {
+  animation: kong-frenzy 0.28s ease-in-out infinite alternate;
+}
+
+.king-kong.kong-frenzy .kong-arm.left {
+  animation: arm-swing-left 0.28s ease-in-out infinite alternate;
+}
+
+.king-kong.kong-frenzy .kong-arm.right {
+  animation: arm-swing-right 0.28s ease-in-out infinite alternate;
+}
+
+@keyframes kong-clap {
+  0%   { transform: translateX(-50%) translateY(0) scale(1); }
+  50%  { transform: translateX(-50%) translateY(-18px) scale(1.08); }
+  100% { transform: translateX(-50%) translateY(0) scale(1); }
+}
+
+@keyframes kong-frenzy {
+  0%   { transform: translateX(-50%) translateY(0) rotate(-6deg) scale(1); }
+  100% { transform: translateX(-50%) translateY(-14px) rotate(6deg) scale(1.1); }
+}
+
+.kong-roar {
+  position: absolute;
+  top: 10%;
+  right: -10px;
+  font-size: clamp(1rem, 1.8vw, 1.4rem);
+  font-weight: 900;
+  color: #ff5722;
+  letter-spacing: 3px;
+  text-shadow: 0 0 12px rgba(255, 87, 34, 0.8);
+  opacity: 0;
+  transform: scale(0.5) rotate(-8deg);
+  transition: opacity 0.2s, transform 0.2s;
+  z-index: 20;
+  pointer-events: none;
+}
+
+.kong-roar.show {
+  opacity: 1;
+  transform: scale(1.15) rotate(-4deg);
+  animation: roar-pop 0.5s ease-out;
+}
+
+@keyframes roar-pop {
+  0%   { transform: scale(0.3) rotate(-12deg); opacity: 0; }
+  60%  { transform: scale(1.25) rotate(-2deg); opacity: 1; }
+  100% { transform: scale(1.1) rotate(-4deg); opacity: 1; }
 }
 
 .kong-head {
@@ -695,6 +794,42 @@ body {
   filter: brightness(1.15) saturate(1.1);
 }
 
+.cell.ghost-piece {
+  opacity: 0.22;
+  box-shadow: none;
+  filter: brightness(0.85);
+  border: 1px dashed rgba(255, 255, 255, 0.35);
+}
+
+.cell.bomb-block {
+  animation: bomb-pulse 0.55s ease-in-out infinite alternate;
+  box-shadow: 0 0 14px rgba(255, 23, 68, 0.75);
+}
+
+@keyframes bomb-pulse {
+  from { filter: brightness(1); }
+  to   { filter: brightness(1.45); }
+}
+
+.board-frame.danger-warning {
+  animation: danger-flash 0.85s ease-in-out infinite;
+  border-color: rgba(255, 40, 40, 0.75);
+}
+
+@keyframes danger-flash {
+  0%, 100% {
+    box-shadow:
+      0 0 30px rgba(255, 40, 40, 0.25),
+      inset 0 0 20px rgba(255, 0, 0, 0.08);
+  }
+  50% {
+    box-shadow:
+      0 0 50px rgba(255, 40, 40, 0.55),
+      0 0 0 3px rgba(255, 60, 60, 0.35),
+      inset 0 0 30px rgba(255, 0, 0, 0.15);
+  }
+}
+
 /* ── Line clear effects ── */
 .cell.domino-out {
   animation: domino-vanish 0.32s ease-in forwards;
@@ -889,7 +1024,9 @@ body {
 }
 
 .score-box,
-.controls-guide {
+.controls-guide,
+.ammo-preview,
+.hold-box {
   background: var(--panel-bg);
   padding: clamp(14px, 1.5vw, 20px);
   border-radius: 4px;
@@ -898,6 +1035,125 @@ body {
     0 4px 24px rgba(0, 0, 0, 0.5),
     inset 0 1px 0 rgba(255, 193, 7, 0.08);
   backdrop-filter: blur(8px);
+}
+
+.ammo-preview h2,
+.hold-box h2 {
+  font-size: clamp(0.7rem, 0.85vw, 0.8rem);
+  color: var(--hud-amber);
+  margin-bottom: 8px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  opacity: 0.8;
+}
+
+.stat-row,
+.best-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: clamp(0.72rem, 0.85vw, 0.82rem);
+  color: var(--text-muted);
+  margin-top: 6px;
+  font-family: "Consolas", monospace;
+}
+
+.stat-row strong,
+.best-row strong {
+  color: var(--hud-amber);
+}
+
+.best-row {
+  margin-top: 4px;
+  opacity: 0.85;
+}
+
+:root {
+  --preview-cell: 14px;
+}
+
+.next-queue {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.next-slot {
+  min-height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255, 140, 50, 0.12);
+  border-radius: 3px;
+  background: rgba(0, 0, 0, 0.25);
+}
+
+.next-slot.next-first {
+  border-color: rgba(255, 193, 7, 0.35);
+  background: rgba(255, 140, 50, 0.06);
+}
+
+.hold-preview {
+  min-height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px dashed rgba(255, 140, 50, 0.2);
+  border-radius: 3px;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.hold-preview.empty::after {
+  content: "—";
+  color: rgba(255, 255, 255, 0.2);
+  font-size: 1.2rem;
+}
+
+.preview-grid {
+  display: grid;
+  gap: 1px;
+}
+
+.preview-cell {
+  width: var(--preview-cell);
+  height: var(--preview-cell);
+  border-radius: 1px;
+}
+
+.preview-cell.filled {
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: inset 1px 1px 2px rgba(255, 255, 255, 0.2);
+}
+
+.preview-cell.bomb-cell {
+  border-radius: 50%;
+  animation: bomb-pulse 0.55s ease-in-out infinite alternate;
+}
+
+.combo-banner {
+  text-align: center;
+  font-size: clamp(0.75rem, 0.95vw, 0.88rem);
+  font-weight: bold;
+  letter-spacing: 2px;
+  color: #ff9800;
+  min-height: 1.4em;
+  opacity: 0;
+  transform: scale(0.9);
+  transition: opacity 0.2s, transform 0.2s;
+  text-shadow: 0 0 10px rgba(255, 152, 0, 0.6);
+  font-family: "Consolas", monospace;
+}
+
+.combo-banner.show {
+  opacity: 1;
+  transform: scale(1);
+  animation: combo-pulse 0.4s ease-out;
+}
+
+@keyframes combo-pulse {
+  0%   { transform: scale(0.8); }
+  60%  { transform: scale(1.08); }
+  100% { transform: scale(1); }
 }
 
 .score-box h2,

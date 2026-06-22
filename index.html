@@ -68,6 +68,13 @@
   </div>
 
   <div class="game-shell">
+    <div id="pause-overlay" class="pause-overlay hidden" aria-hidden="true">
+      <div class="pause-panel">
+        <h2>전투 일시 중단</h2>
+        <p><kbd>P</kbd> 키를 눌러 재개</p>
+      </div>
+    </div>
+
     <header class="game-header">
       <div class="header-badge">OPERATION BLOCKFALL</div>
       <h1>테트리스</h1>
@@ -78,8 +85,9 @@
       <aside class="flank flank-left" aria-hidden="true">
         <div class="flank-label">SECTOR ALPHA</div>
         <div class="kong-stage">
+          <div id="kong-roar" class="kong-roar" aria-hidden="true">ROAR!</div>
           <div class="kong-platform"></div>
-          <div class="king-kong">
+          <div id="king-kong" class="king-kong">
             <div class="kong-head">
               <div class="kong-eye left"></div>
               <div class="kong-eye right"></div>
@@ -122,8 +130,27 @@
           <div class="score-box">
             <h2>점수</h2>
             <p id="score" class="score-value">0</p>
+            <div class="stat-row">
+              <span>LV <strong id="level">1</strong></span>
+              <span>COMBO <strong id="combo">0</strong></span>
+            </div>
+            <div class="best-row">
+              BEST <strong id="best-score">0</strong> · LV <strong id="best-level">1</strong>
+            </div>
             <p id="game-status" class="game-status" aria-live="polite"></p>
           </div>
+
+          <div class="ammo-preview">
+            <h2>탄약 예고</h2>
+            <div id="next-queue" class="next-queue"></div>
+          </div>
+
+          <div class="hold-box">
+            <h2>보류 (C)</h2>
+            <div id="hold-preview" class="hold-preview"></div>
+          </div>
+
+          <div id="combo-banner" class="combo-banner" aria-live="polite"></div>
 
           <div class="button-group">
             <button id="start-btn" type="button">시작</button>
@@ -138,6 +165,8 @@
               <li><kbd>↓</kbd> : 한 칸 빠르게 내리기</li>
               <li><kbd>↑</kbd> : 회전 (충돌 시 취소)</li>
               <li><kbd>Space</kbd> : 즉시 낙하 (hard drop)</li>
+              <li><kbd>C</kbd> : 블록 보류 (Hold)</li>
+              <li><kbd>P</kbd> : 일시 정지 / 재개</li>
             </ul>
           </div>
         </div>
