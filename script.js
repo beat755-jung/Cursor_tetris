@@ -314,8 +314,10 @@ function rotateMatrix(matrix) {
   return rotated;
 }
 
+const ROTATION_KICKS = [0, -1, 1, -2, 2];
+
 function tryMovePiece(dx, dy) {
-  if (!currentPiece || !isPlaying) return false;
+  if (!currentPiece || !isPlaying || isGameOver) return false;
 
   if (canMove(currentPiece, dx, dy, board)) {
     currentPiece.col += dx;
@@ -328,14 +330,17 @@ function tryMovePiece(dx, dy) {
 }
 
 function tryRotatePiece() {
-  if (!currentPiece || !isPlaying) return false;
+  if (!currentPiece || !isPlaying || isGameOver) return false;
 
   const rotatedShape = rotateMatrix(currentPiece.shape);
 
-  if (canMove(currentPiece, 0, 0, board, rotatedShape)) {
-    currentPiece.shape = rotatedShape;
-    render();
-    return true;
+  for (const dx of ROTATION_KICKS) {
+    if (canMove(currentPiece, dx, 0, board, rotatedShape)) {
+      currentPiece.col += dx;
+      currentPiece.shape = rotatedShape;
+      render();
+      return true;
+    }
   }
 
   return false;
@@ -415,6 +420,7 @@ function beginGame() {
 }
 
 startBtn.addEventListener("click", function () {
+  resetScore();
   beginGame();
 });
 

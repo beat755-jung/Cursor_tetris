@@ -7,14 +7,44 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <div class="skyline" aria-hidden="true"></div>
+
   <div class="container">
     <header>
       <h1>테트리스</h1>
+      <p class="subtitle">King Kong Edition</p>
     </header>
 
     <main class="game-area">
+      <aside class="kong-stage" aria-hidden="true">
+        <div class="building">
+          <div class="building-top"></div>
+          <div class="building-body">
+            <div class="window-row"><span></span><span></span></div>
+            <div class="window-row"><span></span><span></span></div>
+            <div class="window-row"><span></span><span></span></div>
+          </div>
+        </div>
+        <div class="kong-platform"></div>
+        <div class="king-kong">
+          <div class="kong-head">
+            <div class="kong-eye left"></div>
+            <div class="kong-eye right"></div>
+            <div class="kong-brow"></div>
+          </div>
+          <div class="kong-body"></div>
+          <div class="kong-arm left"></div>
+          <div class="kong-arm right"></div>
+          <div class="kong-leg left"></div>
+          <div class="kong-leg right"></div>
+        </div>
+        <div class="kong-shadow"></div>
+      </aside>
+
       <section class="board-section">
-        <div id="game-board" class="game-board" aria-label="테트리스 게임 보드"></div>
+        <div class="board-frame">
+          <div id="game-board" class="game-board" aria-label="테트리스 게임 보드"></div>
+        </div>
       </section>
 
       <aside class="info-panel">
