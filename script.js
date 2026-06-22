@@ -17,63 +17,70 @@ const gameStatusElement = document.getElementById("game-status");
 const startBtn = document.getElementById("start-btn");
 const restartBtn = document.getElementById("restart-btn");
 
-// 테트로미노 정의
+// 테트로미노 정의 — 블록 모양별 색상
 const PIECES = {
   I: {
+    // 긴 막대 (ㅡ)
     shape: [
       [0, 0, 0, 0],
       [1, 1, 1, 1],
       [0, 0, 0, 0],
       [0, 0, 0, 0],
     ],
-    color: "#00f0f0",
+    color: "#FFEB3B",
   },
   O: {
+    // 정사각형 (ㅁ)
     shape: [
       [1, 1],
       [1, 1],
     ],
-    color: "#f0f000",
+    color: "#FFA000",
   },
   T: {
+    // T자
     shape: [
       [0, 1, 0],
       [1, 1, 1],
       [0, 0, 0],
     ],
-    color: "#a000f0",
+    color: "#AB47BC",
   },
   S: {
+    // S자 (지그)
     shape: [
       [0, 1, 1],
       [1, 1, 0],
       [0, 0, 0],
     ],
-    color: "#00f000",
+    color: "#43A047",
   },
   Z: {
+    // Z자 (역지그)
     shape: [
       [1, 1, 0],
       [0, 1, 1],
       [0, 0, 0],
     ],
-    color: "#f00000",
+    color: "#E53935",
   },
   J: {
+    // 반전 기역자 (ㅓ)
     shape: [
       [1, 0, 0],
       [1, 1, 1],
       [0, 0, 0],
     ],
-    color: "#0000f0",
+    color: "#1E88E5",
   },
   L: {
+    // 기역자 (ㅏ)
     shape: [
       [0, 0, 1],
       [1, 1, 1],
       [0, 0, 0],
     ],
-    color: "#f0a000",
+    color: "#FF5722",
   },
 };
 
